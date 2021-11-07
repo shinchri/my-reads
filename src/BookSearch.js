@@ -2,12 +2,35 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import Book from './Book'
+import * as BooksAPI from './BooksAPI'
 
 class BookSearch extends React.Component {
 
+    state = {
+        searchBooks: [],
+        query: ''
+    }
+
+    updateQuery = (query) => {
+        BooksAPI.search(query.trim())
+            .then((books)=> {
+                this.setState(()=> ({
+                    searchBooks: books,
+                    query: query.trim()
+                }))
+            })
+        
+    }
+
     render() {
-        const { books, updateQuery, onChangeShelf } = this.props
+        const {onChangeShelf } = this.props
+
+        const showingBooks = this.state.query === ''
+            ? []
+            : this.state.searchBooks
+
         return (
+            
             <div className="search-books">
                 <div className="search-books-bar">
                     <Link to="/" className="close-search">Close</Link>
@@ -24,7 +47,7 @@ class BookSearch extends React.Component {
                         <input 
                             type="text" 
                             placeholder="Search by title or author"
-                            onChange={(event)=> updateQuery(event.target.value)}
+                            onChange={(event)=> this.updateQuery(event.target.value)}
                         />
 
                     </div>
@@ -32,7 +55,12 @@ class BookSearch extends React.Component {
                 
                 <div className="search-books-results">
                     <ol className="books-grid">
-                        {books.map(book => (
+                        {showingBooks.length>0 && showingBooks
+                        .filter(book=> (
+                            book.imageLinks &&
+                            book.authors
+                        ))
+                        .map(book => (
                             <Book 
                                 key={book.id}
                                 book={book} 

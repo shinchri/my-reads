@@ -4,6 +4,7 @@ class Book extends React.Component {
 
     render() {
         const { book, onChangeShelf } =this.props
+
         const backgroundImage = book.imageLinks["smallThumbnail"]
 
         return (

@@ -8,14 +8,7 @@ import { Route, Routes } from 'react-router-dom'
 class BooksApp extends React.Component {
 
     state = {
-        books: [],
-        query:''
-    }
-
-    updateQuery = (query) => {
-        this.setState(()=> ({
-            query: query.trim()
-        }))
+        books: []
     }
 
     componentDidMount() {
@@ -43,14 +36,8 @@ class BooksApp extends React.Component {
 
 
     render() {
-        const {books, query} = this.state
+        const {books} = this.state
 
-        const showingBooks = query ===''
-            ? []
-            : books.filter((book) => (
-                book.title.toLowerCase().includes(query.toLowerCase()) ||
-                book.authors.filter((author)=>author.toLowerCase().includes(query.toLowerCase())).length>0
-            ))
         return (
             <div className="app">
                 <Routes>
@@ -63,8 +50,6 @@ class BooksApp extends React.Component {
                     />
                     <Route path='/search' element={
                         <BookSearch
-                            books={showingBooks}
-                            updateQuery={this.updateQuery}
                             onChangeShelf={this.onChangeShelf}
                         />
                     } 
