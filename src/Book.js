@@ -8,12 +8,14 @@ class Book extends React.Component {
         const backgroundImage = book.imageLinks["smallThumbnail"]
         
         let shelf = book.shelf
+
+        console.log(book.title + " : " + book.shelf) 
         
         if (!book.shelf) {
             shelf = "none"
         }
 
-        console.log(book)
+        
 
         return (
             <li>
