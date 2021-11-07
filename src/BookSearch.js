@@ -31,11 +31,12 @@ class BookSearch extends React.Component {
     }
 
     render() {
-        const {onChangeShelf } = this.props
+        const {books, onChangeShelf } = this.props
 
         const showingBooks = this.state.query === ''
             ? []
             : this.state.searchBooks
+        
 
         return (
             
@@ -71,6 +72,7 @@ class BookSearch extends React.Component {
                         .map(book => (
                             <Book 
                                 key={book.id}
+                                books={books}
                                 book={book} 
                                 onChangeShelf={onChangeShelf}
                             />

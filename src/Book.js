@@ -2,19 +2,17 @@ import React from 'react'
 
 class Book extends React.Component {
 
+    
+
     render() {
-        const { book, onChangeShelf } = this.props
+        const { books, book, onChangeShelf } = this.props
 
         const backgroundImage = book.imageLinks["smallThumbnail"]
-        
-        let shelf = book.shelf
-
-        console.log(book.title + " : " + book.shelf) 
-        
-        if (!book.shelf) {
-            shelf = "none"
+        let shelf = book.shelf;
+        if (books) {
+            const bookOnShelf = books.find(({id}) => book.id === id)
+            shelf = bookOnShelf ? bookOnShelf.shelf : 'none'
         }
-
         
 
         return (

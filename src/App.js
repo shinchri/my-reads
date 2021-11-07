@@ -21,6 +21,7 @@ class BooksApp extends React.Component {
     }
 
     onChangeShelf = (value, book) => {
+        console.log(book)
         BooksAPI.update(book, value)
             .then(()=>{
                 BooksAPI.getAll()
@@ -49,6 +50,7 @@ class BooksApp extends React.Component {
                     />
                     <Route path='/search' element={
                         <BookSearch
+                            books={books}
                             onChangeShelf={this.onChangeShelf}
                         />
                     } 
