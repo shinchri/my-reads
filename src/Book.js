@@ -1,5 +1,4 @@
 import React from 'react'
-import BooksApp from './App_a'
 
 class Book extends React.Component {
 
