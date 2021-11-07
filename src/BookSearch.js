@@ -34,6 +34,7 @@ class BookSearch extends React.Component {
                     <ol className="books-grid">
                         {books.map(book => (
                             <Book 
+                                key={book.id}
                                 book={book} 
                                 onChangeShelf={onChangeShelf}
                             />
