@@ -20,8 +20,7 @@ class BooksApp extends React.Component {
             })
     }
 
-    onChangeShelf = (value, book_id) => {
-        const book = this.state.books.filter(book=>book.id===book_id)[0]
+    onChangeShelf = (value, book) => {
         BooksAPI.update(book, value)
             .then(()=>{
                 BooksAPI.getAll()

@@ -12,13 +12,21 @@ class BookSearch extends React.Component {
     }
 
     updateQuery = (query) => {
-        BooksAPI.search(query.trim())
+        if (query) {
+            BooksAPI.search(query.trim())
             .then((books)=> {
                 this.setState(()=> ({
                     searchBooks: books,
                     query: query.trim()
                 }))
             })
+        }
+        else {
+            this.setState(()=> ({
+                searchBooks: [],
+                query: query.trim()
+            }))
+        }
         
     }
 
