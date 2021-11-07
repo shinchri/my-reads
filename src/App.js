@@ -8,7 +8,14 @@ import { Route, Routes } from 'react-router-dom'
 class BooksApp extends React.Component {
 
     state = {
-        books: []
+        books: [],
+        query:''
+    }
+
+    updateQuery = (query) => {
+        this.setState(()=> ({
+            query: query.trim()
+        }))
     }
 
     componentDidMount() {
@@ -21,10 +28,8 @@ class BooksApp extends React.Component {
     }
 
     onChangeShelf = (value, book_id) => {
-        console.log(value)
-        const book = this.state.books.filter(book=>book.id===book_id)
-        console.log(book[0])
-        BooksAPI.update(book[0], value)
+        const book = this.state.books.filter(book=>book.id===book_id)[0]
+        BooksAPI.update(book, value)
             .then(()=>{
                 BooksAPI.getAll()
                 .then((books) => {
@@ -38,18 +43,30 @@ class BooksApp extends React.Component {
 
 
     render() {
+        const {books, query} = this.state
+
+        const showingBooks = query ===''
+            ? []
+            : books.filter((book) => (
+                book.title.toLowerCase().includes(query.toLowerCase()) ||
+                book.authors.filter((author)=>author.toLowerCase().includes(query.toLowerCase())).length>0
+            ))
         return (
             <div className="app">
                 <Routes>
                     <Route exact path='/' element={
                         <ListBooks 
-                            books={this.state.books}
+                            books={books}
                             onChangeShelf={this.onChangeShelf}
                         />
                     } 
                     />
                     <Route path='/search' element={
-                        <BookSearch/>
+                        <BookSearch
+                            books={showingBooks}
+                            updateQuery={this.updateQuery}
+                            onChangeShelf={this.onChangeShelf}
+                        />
                     } 
                     />
                 </Routes>
